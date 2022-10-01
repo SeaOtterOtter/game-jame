@@ -36,16 +36,16 @@ public class MonsterManager : MonoBehaviour
     {
         monSpawnTimer += Time.deltaTime;
 
-        if (monSpawnTimer >= monSpawnDelay && monsterList.Count <= maxMonNum)
+        if (monsterList.Count <= maxMonNum)
         {
             SpawnMonster();
-            monSpawnTimer = 0.0f;
+            //monSpawnTimer = 0.0f;
         }
     }
 
     void SpawnMonster()
     {
-        GameObject p = Instantiate(monsterPrefab, monSpawnPoint, Quaternion.Euler(0, 180f, 0));
+        GameObject p = Instantiate(monsterPrefab, new Vector3(playerPos.x + monGapDistance * (monsterList.Count + 1), playerPos.y, 0), Quaternion.Euler(0, 180f, 0));
         p.transform.parent = this.transform;
 
         Monster m = p.GetComponent<Monster>();
@@ -82,6 +82,7 @@ public class MonsterManager : MonoBehaviour
                     {
                         Vector3 stoppos = new Vector3(playerPos.x + monGapDistance * (i + 1), playerPos.y, 0);
                         monsterList[i].GetComponent<Monster>().StopPos = stoppos;
+                        // monsterList[i].transform.position = stoppos;
                     }
                 }
             }

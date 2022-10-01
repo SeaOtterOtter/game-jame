@@ -51,27 +51,31 @@ public class Monster : MonoBehaviour
         demandItem = (DemandItem)demandItes.GetValue(Random.Range(0, demandItes.Length));
 
         tipObjChildRenderer = Instantiate(itemPrefabs[(int)demandItem], tipObj.transform).GetComponent<SpriteRenderer>();
+
+        tipObjRenderer.enabled = true;
+        tipObjChildRenderer.enabled = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.x >= StopPos.x)
-        {
-            transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-            tipObjRenderer.enabled = false;
-            tipObjChildRenderer.enabled = false;
-        }
-        else
-        {
+        transform.position = Vector3.Lerp(StopPos, transform.position, 0.85f);
+        //if (transform.position.x >= StopPos.x)
+        //{
+        //    transform.position += Vector3.left * moveSpeed * Time.deltaTime;
+        //    tipObjRenderer.enabled = false;
+        //    tipObjChildRenderer.enabled = false;
+        //}
+        //else
+        //{
             
-            if (isFirst)
-            {
-                tipObjRenderer.enabled = true;
-                tipObjChildRenderer.enabled = true;
-                //ShowTip();
-            }
-        }
+        //    if (isFirst)
+        //    {
+        //        tipObjRenderer.enabled = true;
+        //        tipObjChildRenderer.enabled = true;
+        //        //ShowTip();
+        //    }
+        //}
     }
 
     void ShowTip()
