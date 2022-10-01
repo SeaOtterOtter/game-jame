@@ -1,11 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Threading;
-using Unity.VisualScripting;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Random = UnityEngine.Random;
 
 public enum ClassType
@@ -15,6 +11,7 @@ public enum ClassType
     Ghost,
     Pumpkin,
 }
+
 
 public enum DemandItem
 {
@@ -26,62 +23,60 @@ public enum DemandItem
 
 public class Monster : MonoBehaviour
 {
-    GameObject tipObj;
-
-    Array ItemValues = Enum.GetValues(typeof(DemandItem));
-
-    public DemandItem demandItem;
-    public float moveSpeed;
-
     [SerializeField]
-    public bool isMoving = true;
+    List<GameObject> itemPrefabs = new List<GameObject>();
+
+    Array classTypes = Enum.GetValues(typeof(ClassType));
+    Array demandItes = Enum.GetValues(typeof(DemandItem));
+
+    GameObject tipObj;
+    SpriteRenderer tipObjRenderer;
+    SpriteRenderer tipObjChildRenderer;
+
+    public ClassType classType;
+    public DemandItem demandItem;
+
+    public float moveSpeed;
+    public Vector2 StopPos;
+
+    public bool isFirst = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        isMoving = true;
         tipObj = transform.Find("Tip").gameObject;
-        demandItem = (DemandItem)ItemValues.GetValue(Random.Range(0, ItemValues.Length));
+        tipObjRenderer = tipObj.GetComponent<SpriteRenderer>();
+
+        classType = (ClassType)classTypes.GetValue(Random.Range(0, classTypes.Length));
+        demandItem = (DemandItem)demandItes.GetValue(Random.Range(0, demandItes.Length));
+
+        tipObjChildRenderer = Instantiate(itemPrefabs[(int)demandItem], tipObj.transform).GetComponent<SpriteRenderer>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (isMoving)
+        if (transform.position.x >= StopPos.x)
+        {
             transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-    }
-
-    void OnDestroy()
-    {
-        Debug.Log("Destroy");
-    }
-
-    void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "MonBack" || collision.tag == "Player")
+            tipObjRenderer.enabled = false;
+            tipObjChildRenderer.enabled = false;
+        }
+        else
         {
-            isMoving = false;
-            if (collision.tag == "Player")
-                tipObj.GetComponent<SpriteRenderer>().enabled = true;
-            Debug.Log("" + isMoving + " " + collision.tag);
+            
+            if (isFirst)
+            {
+                tipObjRenderer.enabled = true;
+                tipObjChildRenderer.enabled = true;
+                //ShowTip();
+            }
         }
     }
 
-    void OnTriggerStay2D(Collider2D collision)
+    void ShowTip()
     {
-        if (collision.tag == "MonBack" || collision.tag == "Player")
-        {
-            isMoving = false;
-            Debug.Log("" + isMoving + " " + collision.tag);
-        }
-    }
-
-    void OnTriggerExit2D(Collider2D collision)
-    {
-        if (collision.tag == "MonFront")
-        {
-            isMoving = true;
-            Debug.Log("" + isMoving + " " + collision.tag);
-        }
+        // TODO: 애니메이션 트리거
+        tipObjRenderer.enabled = true;
     }
 }
