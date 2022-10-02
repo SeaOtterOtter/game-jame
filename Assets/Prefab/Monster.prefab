@@ -25,10 +25,10 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114243014}
-  m_LocalRotation: {x: -0, y: -1, z: -0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
-  m_ConstrainProportionsScale: 0
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 0.8}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 498274169880283854}
   m_RootOrder: 0
@@ -40,7 +40,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2114243014}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -110,7 +110,6 @@ GameObject:
   m_Component:
   - component: {fileID: 498274169880283854}
   - component: {fileID: 498274169880283849}
-  - component: {fileID: 498274169880283848}
   - component: {fileID: 1561082197}
   m_Layer: 0
   m_Name: Monster
@@ -128,7 +127,7 @@ Transform:
   m_GameObject: {fileID: 498274169880283851}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 7.9, y: -3.03, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2114243016}
@@ -176,7 +175,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 345587375, guid: 9dcc722f796b7cc4fa7778977de15795, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3ba80090a44777a4da9d4244b7e29b5b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -187,26 +186,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &498274169880283848
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 498274169880283851}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7f49a8c2e6fbe6346869e6710a3990df, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &1561082197
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,12 +199,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemPrefabs:
-  - {fileID: 9102917456276002599, guid: cbe36d5ef130af24596430c724a16a0e, type: 3}
   - {fileID: 5154453425308566807, guid: 32e2bd8306dcd664fa8be068b96d887b, type: 3}
-  - {fileID: 7908948353566331726, guid: 8db2d797e5257454686c4eae6fb0aedb, type: 3}
   - {fileID: 416996441760338845, guid: 803e9053e83f8a2499fe2167f5382cdb, type: 3}
-  classType: 0
-  demandItem: 0
-  moveSpeed: 0
+  - {fileID: 9102917456276002599, guid: cbe36d5ef130af24596430c724a16a0e, type: 3}
+  - {fileID: 7908948353566331726, guid: 8db2d797e5257454686c4eae6fb0aedb, type: 3}
+  ItemNObjs: []
+  itemNum: 1
+  dampingAmount: 0.85
   StopPos: {x: 0, y: 0}
   isFirst: 0

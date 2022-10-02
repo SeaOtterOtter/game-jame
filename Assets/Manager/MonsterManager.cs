@@ -12,46 +12,47 @@ public class MonsterManager : MonoBehaviour
     List<GameObject> monsterList = new List<GameObject>();
 
     public GameObject monsterPrefab;
-
     [Space(10)]
-    public int maxMonNum = 10;
-    public Vector2 monSpawnPoint;
-    public float monGapDistance = 1.0f;
-    public float monSpawnDelay = 1.0f;
-    public float monMoveSpeed = 2.0f;
+    public int maxNum = 10;
     [Space(10)]
-    float monSpawnTimer = 0.0f;
+    public float gapDistance = 1.0f;
+    public int spawnDistance = 12;
+    [Space(10)]
+    public float spawnDelay = 1.0f;
+    
+    float spawnTimer = 0.0f;
 
     Vector3 playerPos;
 
     // Start is called before the first frame update
     void Start()
     {
-        monSpawnTimer = 0.0f;
+        spawnTimer = 0.0f;
         playerPos = GameManager.inst.player.transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
-        monSpawnTimer += Time.deltaTime;
+        spawnTimer += Time.deltaTime;
 
-        if (monSpawnTimer >= monSpawnDelay && monsterList.Count <= maxMonNum)
+        if (spawnTimer >= spawnDelay && monsterList.Count <= maxNum)
         {
             SpawnMonster();
-            monSpawnTimer = 0.0f;
+            spawnTimer = 0.0f;
         }
     }
 
     void SpawnMonster()
     {
-        GameObject p = Instantiate(monsterPrefab, monSpawnPoint, Quaternion.Euler(0, 180f, 0));
+        Vector3 spawnPoint = new Vector3(playerPos.x + gapDistance * (spawnDistance), playerPos.y, 0);
+        GameObject p = Instantiate(monsterPrefab, spawnPoint, Quaternion.Euler(0, 180f, 0));
         p.transform.parent = this.transform;
 
         Monster m = p.GetComponent<Monster>();
-        m.moveSpeed = monMoveSpeed;
-        playerPos = GameManager.inst.player.transform.position; // 플레이어 참고 위치 갱신 Note: Release 때 빼기 
-        m.StopPos = new Vector3(playerPos.x + monGapDistance * (monsterList.Count + 1), playerPos.y, 0);
+        playerPos = GameManager.inst.player.transform.position; // 플레이어 참고 위치 갱신 Note: Release 때 빼기
+        m.itemNum = Random.Range(1, 4);
+        m.StopPos = new Vector3(playerPos.x + gapDistance * (monsterList.Count + 1), playerPos.y, 0);
         if (monsterList.Count == 0)
             m.isFirst = true;
 
@@ -67,7 +68,7 @@ public class MonsterManager : MonoBehaviour
             monster = monsterList[0];
 
             // 여기서 맞는지 판정 // TODO: 아이템 여러개 판단
-            if (monster.GetComponent<Monster>().demandItem == dItem)
+            if (monster.GetComponent<Monster>().Compare(dItem))
             {
                 Debug.Log("OK!");
 
@@ -80,7 +81,7 @@ public class MonsterManager : MonoBehaviour
                     monsterList[0].GetComponent<Monster>().isFirst = true;
                     for (int i = 0; i < monsterList.Count; i++)
                     {
-                        Vector3 stoppos = new Vector3(playerPos.x + monGapDistance * (i + 1), playerPos.y, 0);
+                        Vector3 stoppos = new Vector3(playerPos.x + gapDistance * (i + 1), playerPos.y, 0);
                         monsterList[i].GetComponent<Monster>().StopPos = stoppos;
                         // monsterList[i].transform.position = stoppos;
                     }

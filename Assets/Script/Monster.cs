@@ -1,86 +1,98 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Claims;
 using UnityEngine;
 using Random = UnityEngine.Random;
-
-public enum ClassType
-{
-    Human,
-    Zombie,
-    Ghost,
-    Pumpkin,
-}
 
 
 public enum DemandItem
 {
-    Candy,
-    Apple,
-    Hand,
-    Bone
+    PunpkinPie,
+    Lollypop,
+    Chocolate,
+    Cookie
+}
+
+[Serializable]
+public struct ItemNObj
+{
+    public DemandItem item;
+    public GameObject obj;
 }
 
 public class Monster : MonoBehaviour
 {
+    Array demandItemTypes = Enum.GetValues(typeof(DemandItem));
+
     [SerializeField]
     List<GameObject> itemPrefabs = new List<GameObject>();
 
-    Array classTypes = Enum.GetValues(typeof(ClassType));
-    Array demandItes = Enum.GetValues(typeof(DemandItem));
-
-    GameObject tipObj;
-    SpriteRenderer tipObjRenderer;
-    SpriteRenderer tipObjChildRenderer;
-
-    public ClassType classType;
-    public DemandItem demandItem;
-
-    public float moveSpeed;
+    [SerializeField]
+    List<ItemNObj> ItemNObjs = new List<ItemNObj>();
+    [Header("Item")]
+    public int itemNum = 1;
+    int currentItemIndex = 0;
+    [Header("Animation")]
+    public float dampingAmount = 0.85f;
     public Vector2 StopPos;
 
     public bool isFirst = false;
+
+    GameObject tipObj;
+    Vector3 itemGap;
 
     // Start is called before the first frame update
     void Start()
     {
         tipObj = transform.Find("Tip").gameObject;
-        tipObjRenderer = tipObj.GetComponent<SpriteRenderer>();
+        itemGap = tipObj.transform.localPosition;
+        tipObj.transform.localPosition = itemGap + (Vector3.up * tipObj.transform.localScale.y * (itemNum - 1) / 2f);
+        tipObj.transform.localScale = new Vector3(tipObj.transform.localScale.x, tipObj.transform.localScale.y * itemNum, tipObj.transform.localScale.z);   
 
-        classType = (ClassType)classTypes.GetValue(Random.Range(0, classTypes.Length));
-        demandItem = (DemandItem)demandItes.GetValue(Random.Range(0, demandItes.Length));
-
-        tipObjChildRenderer = Instantiate(itemPrefabs[(int)demandItem], tipObj.transform).GetComponent<SpriteRenderer>();
-
-        tipObjRenderer.enabled = true;
-        tipObjChildRenderer.enabled = true;
+        for (int i = itemNum-1; i >= 0; i--)
+        {
+            ItemNObj temp;
+            temp.item = (DemandItem)demandItemTypes.GetValue(Random.Range(0, demandItemTypes.Length));
+            Vector3 dPos = itemGap + (Vector3.up * i * tipObj.transform.localScale.x);
+            temp.obj = Instantiate(itemPrefabs[(int)temp.item], transform);
+            temp.obj.transform.localPosition = dPos;
+            temp.obj.transform.localScale = Vector3.one * (tipObj.transform.localScale.x - 0.1f);
+            ItemNObjs.Add(temp);
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.Lerp(StopPos, transform.position, 0.85f);
-        //if (transform.position.x >= StopPos.x)
-        //{
-        //    transform.position += Vector3.left * moveSpeed * Time.deltaTime;
-        //    tipObjRenderer.enabled = false;
-        //    tipObjChildRenderer.enabled = false;
-        //}
-        //else
-        //{
-            
+        transform.position = Vector3.Lerp(StopPos, transform.position, dampingAmount);
+
         //    if (isFirst)
         //    {
-        //        tipObjRenderer.enabled = true;
-        //        tipObjChildRenderer.enabled = true;
-        //        //ShowTip();
+        //
         //    }
-        //}
     }
 
-    void ShowTip()
+    public bool Compare(DemandItem dItem)
     {
-        // TODO: 애니메이션 트리거
-        tipObjRenderer.enabled = true;
+        ItemNObj currentItem = ItemNObjs[currentItemIndex];
+        if (currentItem.item == dItem)
+        {
+            currentItem.obj.GetComponent<SpriteRenderer>().enabled = false;
+            ItemNObjs[currentItemIndex] = currentItem;
+            currentItemIndex++;
+            if (currentItemIndex >= itemNum)
+                return true;
+        }
+        else
+        {
+            foreach(ItemNObj item in ItemNObjs)
+            {
+                item.obj.GetComponent<SpriteRenderer>().enabled = true;
+                currentItemIndex = 0;
+            }
+        }
+
+        return false;
     }
 }

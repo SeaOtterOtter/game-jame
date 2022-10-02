@@ -10,6 +10,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject player;
 
+    public GameObject ground;
+
+    float Timer = 0.0f;
+
     void Awake()
     {
         inst = this;

@@ -16,16 +16,21 @@ public class Player : MonoBehaviour
     [SerializeField]
     List<KeyNItem> KeySettingList = new List<KeyNItem>();
 
+    public float floatHeight = 2.0f;
+
     // Start is called before the first frame update
     void Start()
     {
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach(KeyNItem kni in KeySettingList)
+        float groundYPos = GameManager.inst.ground.transform.position.y;
+        transform.position = new Vector3(transform.position.x, groundYPos + floatHeight, transform.position.z);
+
+        foreach (KeyNItem kni in KeySettingList)
         {
             if(Input.GetKeyDown(kni.Key))
             {

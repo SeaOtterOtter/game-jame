@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7766339980556495780}
   - component: {fileID: 5709687494633928199}
   m_Layer: 0
-  m_Name: Bone
+  m_Name: Lollypop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,10 +70,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1978241693
+  m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 7831aabe1dd7a5d4c98313beca57009e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5232fa74947b07940bade8b0d78095c4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
