@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 public struct GameData
@@ -33,6 +34,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI ScoreText;
     [SerializeField] TextMeshProUGUI CustomerText;
     [SerializeField] GameObject GameOverOverlay;
+    [SerializeField] GameObject HelpWindow;
 
     [Header("Timer")]
     public float levelTimer = 0.0f;
@@ -57,7 +59,8 @@ public class GameManager : MonoBehaviour
     int currentLevelIndex = 0;
     int Level = 0;
 
-    bool isGameOver = false;
+    public bool isGameOver = false;
+    public bool isGamePause = false;
 
     void Awake()
     {
@@ -81,29 +84,49 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!(isGameOver || isGamePause))
+        {
+            levelTimer -= Time.deltaTime * defaultDecreaseTime;
+
+            if (spawnCustomer >= gameDatas[currentLevelIndex].costomerCount)
+            {
+                currentLevelIndex++;
+
+                maxDessertNum = gameDatas[currentLevelIndex].maxDessertNum;
+                minDessertNum = gameDatas[currentLevelIndex].minDessertNum;
+
+            }
+
+            if (passCustomer >= gameDatas[Level].costomerCount)
+            {
+                Level++;
+
+                regenTime = gameDatas[Level].regenTime;
+                panaltyTime = gameDatas[Level].panaltyTime;
+                defaultDecreaseTime = gameDatas[Level].defaultDecreaseTime;
+            }
+
+        }
+
         if (levelTimer <= 0)
         {
             isGameOver = true;
         }
 
-        levelTimer -= Time.deltaTime * defaultDecreaseTime;
-
-        if (spawnCustomer >= gameDatas[currentLevelIndex].costomerCount)
+        if (isGameOver)
         {
-            currentLevelIndex++;
-
-            maxDessertNum = gameDatas[currentLevelIndex].maxDessertNum;
-            minDessertNum = gameDatas[currentLevelIndex].minDessertNum;
-            
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene("Scenes/MenuScene");
+            }
         }
-
-        if (passCustomer >= gameDatas[Level].costomerCount)
+        else
         {
-            Level++;
-
-            regenTime = gameDatas[Level].regenTime;
-            panaltyTime = gameDatas[Level].panaltyTime;
-            defaultDecreaseTime = gameDatas[Level].defaultDecreaseTime;
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                isGamePause = !isGamePause;
+                
+            }
         }
 
         UpdateUI();
@@ -114,17 +137,17 @@ public class GameManager : MonoBehaviour
     {
         if (isGameOver)
         {
+            HelpWindow.SetActive(false);
             GameOverOverlay.SetActive(true);
         }
-        else
-        {
-            TimerBar.value = levelTimer;
-            string str = "" + (levelTimer);
-            string str1 = str.Substring(0, str.IndexOf('.'));
-            TimerText.text = str1;
-            LevelText.text = "" + (Level + 1);
-            ScoreText.text = "" + (score);
-            CustomerText.text = "" + (passCustomer);
-        }
+
+        TimerBar.value = levelTimer;
+        string str = "" + (levelTimer);
+        string str1 = str.Substring(0, str.IndexOf('.'));
+        TimerText.text = str1;
+        LevelText.text = "" + (Level + 1);
+        ScoreText.text = "" + (score);
+        CustomerText.text = "" + (passCustomer);
+        HelpWindow.SetActive(isGamePause);
     }
 }

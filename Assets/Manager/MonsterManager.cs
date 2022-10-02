@@ -39,12 +39,15 @@ public class MonsterManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spawnTimer += Time.deltaTime;
-
-        if (spawnTimer >= spawnDelay && monsterList.Count <= maxNum)
+        if (!(GM.isGameOver || GM.isGamePause))
         {
-            SpawnMonster();
-            spawnTimer = 0.0f;
+            spawnTimer += Time.deltaTime;
+
+            if (spawnTimer >= spawnDelay && monsterList.Count <= maxNum)
+            {
+                SpawnMonster();
+                spawnTimer = 0.0f;
+            }
         }
     }
 

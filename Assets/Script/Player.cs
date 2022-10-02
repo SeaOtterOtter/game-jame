@@ -18,24 +18,29 @@ public class Player : MonoBehaviour
 
     public float floatHeight = 2.0f;
 
+    GameManager GM;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        GM = GameManager.inst;
     }
 
     // Update is called once per frame
     void Update()
     {
-        float groundYPos = GameManager.inst.ground.transform.position.y;
-        transform.position = new Vector3(transform.position.x, groundYPos + floatHeight, transform.position.z);
-
-        foreach (KeyNItem kni in KeySettingList)
+        if (!(GM.isGameOver || GM.isGamePause))
         {
-            if(Input.GetKeyDown(kni.Key))
+            float groundYPos = GameManager.inst.ground.transform.position.y;
+            transform.position = new Vector3(transform.position.x, groundYPos + floatHeight, transform.position.z);
+
+            foreach (KeyNItem kni in KeySettingList)
             {
-                GameManager.inst.monsterManager.Compare(kni.Item);
-                Debug.Log("" + kni.Key + " " + kni.Item);
+                if (Input.GetKeyDown(kni.Key))
+                {
+                    GameManager.inst.monsterManager.Compare(kni.Item);
+                    Debug.Log("" + kni.Key + " " + kni.Item);
+                }
             }
         }
     }

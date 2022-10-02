@@ -70,12 +70,15 @@ public class Monster : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = Vector3.Lerp(StopPos, transform.position, dampingAmount);
+        if (!(GM.isGameOver || GM.isGamePause))
+        {
+            transform.position = Vector3.Lerp(StopPos, transform.position, dampingAmount);
 
-        //    if (isFirst)
-        //    {
-        //
-        //    }
+            //    if (isFirst)
+            //    {
+            //
+            //    }
+        }
     }
 
     public bool Compare(DemandItem dItem)
