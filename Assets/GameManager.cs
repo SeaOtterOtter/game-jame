@@ -94,7 +94,6 @@ public class GameManager : MonoBehaviour
 
                 maxDessertNum = gameDatas[currentLevelIndex].maxDessertNum;
                 minDessertNum = gameDatas[currentLevelIndex].minDessertNum;
-
             }
 
             if (passCustomer >= gameDatas[Level].costomerCount)

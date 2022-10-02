@@ -4996,13 +4996,13 @@ MonoBehaviour:
     defaultDecreaseTime: 3
   - costomerCount: 21
     maxDessertNum: 3
-    minDessertNum: 2
+    minDessertNum: 1
     regenTime: 4
     panaltyTime: 8
     defaultDecreaseTime: 4
   - costomerCount: 51
     maxDessertNum: 4
-    minDessertNum: 3
+    minDessertNum: 1
     regenTime: 3
     panaltyTime: 10
     defaultDecreaseTime: 5

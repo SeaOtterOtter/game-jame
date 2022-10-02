@@ -60,7 +60,7 @@ public class MonsterManager : MonoBehaviour
 
         Monster m = p.GetComponent<Monster>();
         playerPos = GM.player.transform.position; // 플레이어 참고 위치 갱신 Note: Release 때 빼기
-        m.itemNum = Random.Range(GM.minDessertNum, GM.maxDessertNum);
+        m.itemNum = Random.Range(GM.minDessertNum, GM.maxDessertNum+1);
         m.StopPos = new Vector3(playerPos.x + gapDistance * (monsterList.Count + 1), playerPos.y, 0);
         if (monsterList.Count == 0)
             m.isFirst = true;
