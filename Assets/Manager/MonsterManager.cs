@@ -9,9 +9,9 @@ using Input = UnityEngine.Input;
 public class MonsterManager : MonoBehaviour
 {
     [SerializeField]
+    List<GameObject> monsterPrefabs = new List<GameObject>();
+    [SerializeField]
     List<GameObject> monsterList = new List<GameObject>();
-
-    public GameObject monsterPrefab;
     [Space(10)]
     public int maxNum = 10;
     [Space(10)]
@@ -24,11 +24,16 @@ public class MonsterManager : MonoBehaviour
 
     Vector3 playerPos;
 
+    GameManager GM;
+
     // Start is called before the first frame update
     void Start()
     {
+        GM = GameManager.inst;
+        playerPos = GM.player.transform.position;
+
         spawnTimer = 0.0f;
-        playerPos = GameManager.inst.player.transform.position;
+        
     }
 
     // Update is called once per frame
@@ -46,18 +51,21 @@ public class MonsterManager : MonoBehaviour
     void SpawnMonster()
     {
         Vector3 spawnPoint = new Vector3(playerPos.x + gapDistance * (spawnDistance), playerPos.y, 0);
-        GameObject p = Instantiate(monsterPrefab, spawnPoint, Quaternion.Euler(0, 180f, 0));
+        GameObject tempMonObj = monsterPrefabs[Random.Range(0, monsterPrefabs.Count)];
+        GameObject p = Instantiate(tempMonObj, spawnPoint, Quaternion.Euler(0, 180f, 0));
         p.transform.parent = this.transform;
 
         Monster m = p.GetComponent<Monster>();
-        playerPos = GameManager.inst.player.transform.position; // 플레이어 참고 위치 갱신 Note: Release 때 빼기
-        m.itemNum = Random.Range(1, 4);
+        playerPos = GM.player.transform.position; // 플레이어 참고 위치 갱신 Note: Release 때 빼기
+        m.itemNum = Random.Range(GM.minDessertNum, GM.maxDessertNum);
         m.StopPos = new Vector3(playerPos.x + gapDistance * (monsterList.Count + 1), playerPos.y, 0);
         if (monsterList.Count == 0)
             m.isFirst = true;
 
         monsterList.Add(p);
         Debug.Log(monsterList.Count);
+
+        GM.spawnCustomer++;
     }
 
     public void Compare(DemandItem dItem)
@@ -67,7 +75,7 @@ public class MonsterManager : MonoBehaviour
             GameObject monster;
             monster = monsterList[0];
 
-            // 여기서 맞는지 판정 // TODO: 아이템 여러개 판단
+            // 여기서 맞는지 판정
             if (monster.GetComponent<Monster>().Compare(dItem))
             {
                 Debug.Log("OK!");

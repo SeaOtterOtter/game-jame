@@ -42,10 +42,15 @@ public class Monster : MonoBehaviour
     GameObject tipObj;
     Vector3 itemGap;
 
+    GameManager GM;
+
     // Start is called before the first frame update
     void Start()
     {
+        GM = GameManager.inst;
+
         tipObj = transform.Find("Tip").gameObject;
+        Debug.Log(tipObj);
         itemGap = tipObj.transform.localPosition;
         tipObj.transform.localPosition = itemGap + (Vector3.up * tipObj.transform.localScale.y * (itemNum - 1) / 2f);
         tipObj.transform.localScale = new Vector3(tipObj.transform.localScale.x, tipObj.transform.localScale.y * itemNum, tipObj.transform.localScale.z);   
@@ -82,11 +87,19 @@ public class Monster : MonoBehaviour
             ItemNObjs[currentItemIndex] = currentItem;
             currentItemIndex++;
             if (currentItemIndex >= itemNum)
+            {
+                GM.levelTimer += GM.regenTime;
+                GM.passDessertNum += itemNum;
+                GM.passCustomer++;
+                GM.combo++;
                 return true;
+            }
         }
         else
         {
-            foreach(ItemNObj item in ItemNObjs)
+            GM.levelTimer -= GM.panaltyTime;
+            GM.combo = 0;
+            foreach (ItemNObj item in ItemNObjs)
             {
                 item.obj.GetComponent<SpriteRenderer>().enabled = true;
                 currentItemIndex = 0;
