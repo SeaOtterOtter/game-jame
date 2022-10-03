@@ -101,6 +101,7 @@ public class Monster : MonoBehaviour
         else
         {
             GM.levelTimer -= GM.panaltyTime;
+            GM.passDessertNum -= itemNum;
             GM.combo = 0;
             foreach (ItemNObj item in ItemNObjs)
             {

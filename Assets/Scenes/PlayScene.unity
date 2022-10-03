@@ -397,7 +397,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 531, y: -475}
+  m_AnchoredPosition: {x: 889, y: -475}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &370725975
@@ -454,7 +454,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 1
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 464751515}
   - component: {fileID: 464751514}
   m_Layer: 5
-  m_Name: PassCustomer
+  m_Name: Combo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +532,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 525, y: -475}
+  m_AnchoredPosition: {x: -591, y: -253}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &464751514
@@ -564,8 +564,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+    rgba: 4280686622
+  m_fontColor: {r: 0.11764707, g: 0.09411766, b: 0.14901961, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -582,14 +582,14 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 40
+  m_fontSizeBase: 40
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 4
+  m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -3614,7 +3614,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 800, y: -475}
+  m_AnchoredPosition: {x: 702, y: -477}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1545734561
@@ -4978,7 +4978,7 @@ MonoBehaviour:
   TimerText: {fileID: 851763335}
   LevelText: {fileID: 370725975}
   ScoreText: {fileID: 1545734561}
-  CustomerText: {fileID: 464751514}
+  ComboText: {fileID: 464751514}
   GameOverOverlay: {fileID: 1451777630}
   HelpWindow: {fileID: 607710041}
   levelTimer: 300
@@ -4986,26 +4986,39 @@ MonoBehaviour:
   passCustomer: 0
   passDessertNum: 0
   combo: 0
+  missInput: 0
   score: 0
   gameDatas:
   - costomerCount: 10
     maxDessertNum: 2
     minDessertNum: 1
     regenTime: 5
-    panaltyTime: 5
+    panaltyTime: 3
     defaultDecreaseTime: 3
   - costomerCount: 21
     maxDessertNum: 3
     minDessertNum: 1
     regenTime: 4
-    panaltyTime: 8
+    panaltyTime: 4
     defaultDecreaseTime: 4
   - costomerCount: 51
     maxDessertNum: 4
     minDessertNum: 1
     regenTime: 3
-    panaltyTime: 10
+    panaltyTime: 5
     defaultDecreaseTime: 5
+  - costomerCount: 80
+    maxDessertNum: 4
+    minDessertNum: 2
+    regenTime: 3
+    panaltyTime: 6
+    defaultDecreaseTime: 6
+  - costomerCount: 100
+    maxDessertNum: 4
+    minDessertNum: 3
+    regenTime: 3
+    panaltyTime: 7
+    defaultDecreaseTime: 7
   maxDessertNum: 0
   minDessertNum: 0
   regenTime: 0
